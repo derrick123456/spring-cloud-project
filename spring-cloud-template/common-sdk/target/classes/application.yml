@@ -1,0 +1,84 @@
+spring:
+   application:
+      name: common-base
+   http:
+   ######常规配置勿动########
+      encoding:
+         charset: UTF-8
+         enabled: true
+         force: true
+   ######常规配置勿动########      
+   mvc:
+      throw-exception-if-no-handler-found: true
+   ######常规配置勿动########
+   resources:
+      add-mappings: false
+      
+   ######如有数据库,数据库常规配置,如其他数据库请替换其他driverClassName########
+   datasource:
+       driverClassName: com.mysql.jdbc.Driver
+       type: com.alibaba.druid.pool.DruidDataSource
+   druid:
+       initialSize: 5
+       maxActive: 10
+       minIdle: 3
+       maxWait: 600000
+       removeAbandoned: true
+       removeAbandonedTimeout: 180
+       timeBetweenEvictionRunsMillis: 600000
+       minEvictableIdleTimeMillis: 300000
+       validationQuery: SELECT 1 FROM DUAL
+       testWhileIdle: true
+       testOnBorrow: false
+       testOnReturn: false
+       poolPreparedStatements: true
+       maxPoolPreparedStatementPerConnectionSize: 50
+       filters: stat
+       initialization-mode: always
+       #指定SQL scripts编码.
+       sql-script-encoding: utf-8
+
+   redis:
+     host: 127.0.0.1
+     port: 6379
+     #password:
+     database: 0
+     timeout: 5000
+     poll:
+        max-active: 8
+        max-wait: 1
+        max-idle: 8
+        min-idle: 0
+
+
+
+  ######jackson 常规配置,可以根据情况使用default-property-inclusion,当non_null时,null字段属性不转换json########
+   jackson:
+      #default-property-inclusion: non_null
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+      serialization:
+         WRITE_DATES_AS_TIMESTAMPS: false
+   profiles:
+      active: dev
+
+filter-auth-url:
+   config:
+        unauthorization_url: auth
+        tokens_plit: 1
+        un_respone_url: https
+
+
+
+#######常规配置无需修改##########
+management:
+   endpoints:
+      web:
+         exposure:
+            include: "*"
+   endpoint:
+      health:
+         show-details: ALWAYS
+
+#项目统一返回码前缀,切记标准4位，定义的长度大于4位会影响抛异常
+module-code: XY01

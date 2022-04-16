@@ -1,0 +1,35 @@
+####测试环境配置文件,其他环境配置文件,请参考本文件说明#######
+####服务启动端口,保证服务器端口可用即可#######
+server:
+   port: 8086
+
+####指标监控开启logger#######
+logging:
+   path: "D:/logs/wgg-service"    #开启spring boot admin监控日志功能 路径 file配置所需
+   ####引用日志配置,如日志输出位置,日志输出格式,日志级别,请参考logback-**.xml,不同环境可以有不同配置的日志配置#######
+   config: classpath:log/logback.xml
+   file: ${logging.path}/${spring.application.name}-console.log
+
+spring:
+
+   ##数据库IP地址,用户名,密码,其中ENC加密串生成参考EncryptUtil.encYml SDK工具类,其他ENC部分相同规则,如不需要敏感加密处理,请去掉ENC()部分直接填入未加密值##
+   datasource:
+      jdbcUrl: jdbc:mysql://localhost:3306/test?tinyInt1isBit=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&zeroDateTimeBehavior=convertToNull&useSSL=false
+      username: root
+      password: 123456
+      #schema: classpath:initsql/schema.sql ##初始化建表 根据自身需要选择,多租户不支持
+      #data: classpath:initsql/data.sql ##初始化表数据 根据自身需要选择,多租户不支持,或者没有需要请去掉该项配置
+      
+
+#jasypt加密的密匙 用于铭感配置加密,32位以上长度即可英文字母加数字即可,也可以包含下划线,横线,不要包含井号,井号是yml的注释说明
+jasypt:
+   encryptor:
+      password: EbfYkitulv73I2p0mXI50JMXoaxZTKJ7
+      
+
+######是否开启swagger文档,选配,可以不配置,也可以配置空值,当不配置或空值时默认为true,生产环境建议不要开启#####
+swagger:
+   enable: true
+         
+   
+   

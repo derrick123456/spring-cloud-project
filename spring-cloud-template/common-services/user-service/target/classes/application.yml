@@ -1,0 +1,102 @@
+spring:
+   application:
+      name: user-service
+   http:
+   ######常规配置勿动########
+      encoding:
+         charset: UTF-8
+         enabled: true
+         force: true
+   ######常规配置勿动########      
+   mvc:
+      throw-exception-if-no-handler-found: true
+   ######常规配置勿动########
+   resources:
+      add-mappings: false
+      
+   ######如有数据库,数据库常规配置,如其他数据库请替换其他driverClassName########
+   datasource:
+     driver-class-name: com.mysql.jdbc.Driver
+     # 使用druid数据源
+     type: com.alibaba.druid.pool.DruidDataSource
+     druid:
+       # 配置测试查询语句
+       validationQuery: SELECT 1 FROM DUAL
+       # 初始化大小，最小，最大
+       initialSize: 10
+       minIdle: 10
+       maxActive: 200
+       # 配置一个连接在池中最小生存的时间，单位是毫秒
+       minEvictableIdleTimeMillis: 180000
+       testOnBorrow: false
+       testWhileIdle: true
+       removeAbandoned: true
+       removeAbandonedTimeout: 1800
+       logAbandoned: true
+       # 打开PSCache，并且指定每个连接上PSCache的大小
+       poolPreparedStatements: true
+       maxOpenPreparedStatements: 100
+       # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+       filters: stat,wall,log4j
+       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+   redis:
+     host: 127.0.0.1
+     port: 6379
+     #password:
+     database: 0
+     timeout: 5000
+     poll:
+        max-active: 8
+        max-wait: 1
+        max-idle: 8
+        min-idle: 0
+
+  ######jackson 常规配置,可以根据情况使用default-property-inclusion,当non_null时,null字段属性不转换json########
+   jackson:
+      #default-property-inclusion: non_null
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+      serialization:
+         WRITE_DATES_AS_TIMESTAMPS: false
+   profiles:
+      active: dev
+
+#logging:
+#  level:
+#    com:
+#      test:
+#        demo:
+#          service:
+#            mapper: true
+
+#mybatis
+#mybatis-plus:
+#  # 实体类扫描
+#  type-aliases-package: com.test.demo.service.model.entity
+#  # 配置映射文件位置
+#  mapper-locations: classpath:mapper/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
+
+filter-auth-url:
+   config:
+        unauthorization_url: auth
+        tokens_plit: 1
+        un_respone_url: https
+
+
+
+#######常规配置无需修改##########
+management:
+   endpoints:
+      web:
+         exposure:
+            include: "*"
+   endpoint:
+      health:
+         show-details: ALWAYS
+
+#项目统一返回码前缀,切记标准4位，定义的长度大于4位会影响抛异常
+module-code: SYS-

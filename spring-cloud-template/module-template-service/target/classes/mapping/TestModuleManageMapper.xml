@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.demo.service.mapper.TestModuleManageMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap"
+		type="com.test.demo.service.model.entity.TestModuleManage">
+		<id column="id" property="id" />
+		<result column="module_name" property="moduleName" />
+		<result column="module_code" property="moduleCode" />
+		<result column="descr" property="descr" />
+		<result column="module_type" property="moduleType" />
+		<result column="valid" property="valid" />
+		<result column="creator_id" property="creatorId" />
+		<result column="create_time" property="createTime" />
+		<result column="editor_id" property="editorId" />
+		<result column="editor_time" property="editorTime" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, module_name, module_code, descr, module_type, valid,
+		creator_id,create_time, editor_id, editor_time
+	</sql>
+
+
+
+	<!--根据多个Id查询多条记录 -->
+	<select id="selectModuleListByIds" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM test_module_manage
+		WHERE 1=1
+		<if test="ids !=null and ids.size() >0">
+			and id in
+			<foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+	            #{item}
+	        </foreach>
+		</if>
+	</select>
+
+</mapper>
